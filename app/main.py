@@ -337,7 +337,7 @@ def move():
 			move = directions[path.direction()]
 			print move
 		else:
-			simpleMovements = True
+		    simpleMovements = True
 	
 	## NOT SURE
 	# Uses A*
