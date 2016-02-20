@@ -330,7 +330,7 @@ def move():
 		while not path and ind < idlePathSamples:
 			goal = grid.random()
 			tmpPath = aStar(grid, tuple(ourSnake['coords'][0]), goal)
-			if tmpPath != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
+			if tmpPath != False:
                 path = tmpPath
             ind += 1
         if path:
