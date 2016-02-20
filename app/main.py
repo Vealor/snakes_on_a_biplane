@@ -436,7 +436,7 @@ def move():
     
     #not sure
     if not grid.contains(transpos) or grid.obstructed(transpos):
-        cGrid = Grid(len(data['board'][0]), len(data['board']))
+        cGrid = Grid(data['width'], data['height'])
         for snake in data['snakes']:		
             for coord in snake['coords']:			
                 cGrid.obstruct(tuple(coord))
