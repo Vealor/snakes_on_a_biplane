@@ -293,8 +293,6 @@ def move():
         print "CHECKING FOR COINS"
         possibleCoins = []
         for coin in data['gold']:
-            #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            ##REWORK DISTANCE CALCULATION! (maybe?)
             dist = manDist(tuple(ourSnake['coords'][0]), tuple(coin))  #snake not defined?
             skip = False
             #avoid snakes closer to the coin!
@@ -317,7 +315,7 @@ def move():
         
         if closestCoin != None:
             path = aStar(grid, tuple(ourSnake['coords'][0]), closestCoin)
-            if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestCoin): #not position better? whaaa
+            if path != False: #not position better? whaaa
                 move = directions[path.direction()]
                 print "Coin>> " + move
                 getcoin = True
@@ -329,8 +327,6 @@ def move():
         print data['food']
         possibleFoods = []
         for food in data['food']:
-            #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            ##REWORK DISTANCE CALCULATION! (maybe?)
             dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))  #snake not defined?
             skip = False
             #avoid snakes closer to the food
@@ -422,17 +418,17 @@ def move():
             curdir = direction
             break
     
-    #curpos = tuple(ourSnake['coords'][0])
-    a = ourSnake['coords']
-    b = a[0]
-    c = tuple(b)
-    d = c[0]
-    e = c[1]
-    one = d + curdir[0]
-    two = e + curdir[1]
+    curpos = tuple(ourSnake['coords'][0])
+    # a = ourSnake['coords']
+    # b = a[0]
+    # c = tuple(b)
+    # d = c[0]
+    # e = c[1]
+    # one = d + curdir[0]
+    # two = e + curdir[1]
     
-    transpos = (one, two)
-    # transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
+    # transpos = (one, two)
+    transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
     
     #not sure
     if not grid.contains(transpos) or grid.obstructed(transpos):
