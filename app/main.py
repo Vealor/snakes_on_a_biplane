@@ -313,7 +313,7 @@ def move():
         if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood):
             move = directions[path.direction()]
         else:
-        idle = True
+            idle = True
     else:
         idle = True
 		
