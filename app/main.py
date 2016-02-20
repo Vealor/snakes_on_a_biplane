@@ -30,7 +30,7 @@ lenTList = len(tList)-1
 ################################################################################
 # Constants                                                                    #
 ################################################################################
-snakeName = 'snakes-on-a-plane'
+snakeName = 'snakesonabiplane'
 directions = {
 	(-1, 0): 'west',
 	(1, 0): 'east',
@@ -38,8 +38,8 @@ directions = {
 	(0, 1): 'south'
 }
 
-trapSamples = 20
-idlePathSamples = 20
+trapSamples = 2
+idlePathSamples = 2
 
 ################################################################################
 # Classes                                                                      #
