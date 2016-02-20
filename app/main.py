@@ -316,7 +316,7 @@ def move():
         
         if closestCoin != None:
             path = aStar(grid, tuple(ourSnake['coords'][0]), closestCoin)
-            if path != False: #not position better? whaaa
+            if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestCoin): #not position better? whaaa
                 move = directions[path.direction()]
                 print "Coin>> " + move
                 getcoin = True
@@ -376,7 +376,7 @@ def move():
         while not path and ind < idlePathSamples:
             goal = grid.random()
             tmpPath = aStar(grid, tuple(ourSnake['coords'][0]), goal)
-            if tmpPath != False:
+            if tmpPath != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
                 path = tmpPath
             ind += 1
         if path:
@@ -411,6 +411,7 @@ def move():
     #------DIRECTION CHECK ***FAILSAFE***
     if not move:
         move = 'west'
+        print "failsafe... rip"
     print "FINAL>> " + move
     
     curdir = None
