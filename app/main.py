@@ -293,7 +293,7 @@ def move():
         skip = False
         #avoid snakes closer to the food
         for snake in data['snakes']:
-			if snake['name'] != snakeName and manDist(tuple(snake['coords'][0]), tuple(food)) <= dist:
+			if snake['id'] != snakeid and manDist(tuple(snake['coords'][0]), tuple(food)) <= dist:
 				skip = True
 				break
 			if not skip:
