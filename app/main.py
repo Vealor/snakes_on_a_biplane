@@ -1,5 +1,7 @@
 import bottle
-import json
+import os
+
+# import json
 import heapq
 import random
 import copy
@@ -24,15 +26,16 @@ tList = ['Feel the power of the mongoose!',
 		 'Fear the power of the force...',
 		 'My goose is bigger than yours!']
 lenTList = len(tList)-1
+
 ################################################################################
 # Constants                                                                    #
 ################################################################################
 snakeName = 'snakes-on-a-plane'
 directions = {
-	(-1, 0): 'left',
-	(1, 0): 'right',
-	(0, -1): 'up',
-	(0, 1): 'down'
+	(-1, 0): 'west',
+	(1, 0): 'east',
+	(0, -1): 'north',
+	(0, 1): 'south'
 }
 
 trapSamples = 20
@@ -232,12 +235,9 @@ def isPositionBetter(grid, snake, current, pathTo, to):
 ################################################################################
 # Server                                                                       #
 ################################################################################
-
-
 @bottle.route('/static/<path:path>')
 def static(path):
     return bottle.static_file(path, root='static/')
-
 
 @bottle.get('/')
 def index():
@@ -247,6 +247,7 @@ def index():
     )
 
     return {
+        'name': snakeName,
         'color': '#4B1000',
         'head': head_url
     }
@@ -255,9 +256,22 @@ def index():
 @bottle.post('/start')
 def start():
     data = bottle.request.json
-    # Request:
-	#	game_id, turn, board, snakes, food
-	move = None
+
+    # TODO: Do things with data
+
+    return {
+        'taunt': 'battlesnake-python!'
+    }
+
+
+@bottle.post('/move')
+def move():
+    data = bottle.request.json
+
+    # TODO: Do things with data
+
+
+    move = None
 	ourSnake = None
  	
  	# Find our snake
@@ -375,22 +389,10 @@ def start():
 				move = directions[direction]
 				break
 	#TO ADD: make so that it can check end of snakes adjacent to find openings
-	#
-
-    return {
-        'name': snakeName,
-		'color': '#8B3626',
-		'taunt': 'GRAWWRRGGGGGGGGGG!'
-    }
-
-
-@bottle.post('/move')
-def move():
-    data = bottle.request.json
-
-    # TODO: Do things with data
+	#		 
+	
     
-    #------------------RETURN TO SERVER-----------
+    
     return {
         'move': move,
         'taunt': tList[random.randint(0,lenTList)]
@@ -404,7 +406,7 @@ def end():
     # TODO: Do things with data
 
     return {
-        'taunt': 'DEATH HAS BEFALLEN ME!'
+        'taunt': 'battlesnake-python!'
     }
 
 
