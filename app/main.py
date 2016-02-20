@@ -309,13 +309,13 @@ def move():
 	idle = False
     
     if closestFood != None:
-		path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
-		if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood):
-			move = directions[path.direction()]
-		else:
-			idle = True
-	else:
-		idle = True
+        path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
+        if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood):
+            move = directions[path.direction()]
+        else:
+        idle = True
+    else:
+        idle = True
 		
 	# IDLE ACTIONS
 	simpleMovements = False
