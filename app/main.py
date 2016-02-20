@@ -214,110 +214,110 @@ def isPositionBetter(grid, snake, current, pathTo, to):
 #===== INIT STATIC ============================
 @bottle.route('/static/<path:path>')
 def static(path):
-    return bottle.static_file(path, root='static/')
+	return bottle.static_file(path, root='static/')
 #===== INIT ===================================
 @bottle.get('/')
 def index():
-    head_url = '%s://%s/static/mongoose.png' % (
-        bottle.request.urlparts.scheme,
-        bottle.request.urlparts.netloc
-    )
-    return {
-        'color': '#4B1000',
-        'head': head_url
-    }
+	head_url = '%s://%s/static/mongoose.png' % (
+		bottle.request.urlparts.scheme,
+		bottle.request.urlparts.netloc
+	)
+	return {
+		'color': '#4B1000',
+		'head': head_url
+	}
 #===== START DATA ===================================
 @bottle.post('/start')
 def start():
-    data = bottle.request.json
+	data = bottle.request.json
 
-    # TODO: Do things with data: (BELOW)
-    # {
-    #     "game": "hairy-cheese",
-    #     "mode": "advanced",
-    #     "turn": 0,
-    #     "height": 20,
-    #     "width": 30,
-    #     "snakes": [
-    #         <Snake Object>, <Snake Object>, ...
-    #     ],
-    #     "food": [],
-    #     "walls": [],  // Advanced Only
-    #     "gold": []    // Advanced Only
-    # }
-    
-    return {
-        'taunt': 'GET OFF MY PLANE!!'
-    }
+	# TODO: Do things with data: (BELOW)
+	# {
+	#     "game": "hairy-cheese",
+	#     "mode": "advanced",
+	#     "turn": 0,
+	#     "height": 20,
+	#     "width": 30,
+	#     "snakes": [
+	#         <Snake Object>, <Snake Object>, ...
+	#     ],
+	#     "food": [],
+	#     "walls": [],  // Advanced Only
+	#     "gold": []    // Advanced Only
+	# }
+	
+	return {
+		'taunt': 'GET OFF MY PLANE!!'
+	}
 
 #===== MAKE MOVE ===================================
 @bottle.post('/move')
 def move():
-    data = bottle.request.json
-    mode = data['mode']
-    move = None
-    ourSnake = None
-    
-    # GET OUR SNAKE
-    for snake in data['snakes']:
-        if snake['id'] == snakeid:
-            ourSnake = snake
-            break
-            
-    #ESTABLISH OUTER GRID
-    grid = Grid(data['width'], data['height'])
-    
-    #Get info on other snakes
-    for snake in data['snakes']:
-        #obstruct all snakes
-        for coord in snake['coords']:
-            grid.obstruct(tuple(coord))
-        #obstruct all snake movement locations if bigger or equal than us
-        if snake['id'] != snakeid:
-            for direction in directions:
-                if len(snake['coords']) >= len(ourSnake['coords']):
-                    head = snake['coords'][0]
-                    movement = (head[0] + direction[0], head[1] + direction[1])
-                    grid.obstruct(movement)
-    
-    #ADVANCED: AVOID WALLS
-    if mode == 'advanced':
-        pass
-    
-    #GET FOODS possible without dying
-    possibleFoods = []
-    for food in data['food']:
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        ##REWORK DISTANCE CALCULATION! (maybe?)
-        dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))  #snake not defined?
-        skip = False
-        #avoid snakes closer to the food
-        for snake in data['snakes']:
+	data = bottle.request.json
+	mode = data['mode']
+	move = None
+	ourSnake = None
+	
+	# GET OUR SNAKE
+	for snake in data['snakes']:
+		if snake['id'] == snakeid:
+			ourSnake = snake
+			break
+			
+	#ESTABLISH OUTER GRID
+	grid = Grid(data['width'], data['height'])
+	
+	#Get info on other snakes
+	for snake in data['snakes']:
+		#obstruct all snakes
+		for coord in snake['coords']:
+			grid.obstruct(tuple(coord))
+		#obstruct all snake movement locations if bigger or equal than us
+		if snake['id'] != snakeid:
+			for direction in directions:
+				if len(snake['coords']) >= len(ourSnake['coords']):
+					head = snake['coords'][0]
+					movement = (head[0] + direction[0], head[1] + direction[1])
+					grid.obstruct(movement)
+	
+	#ADVANCED: AVOID WALLS
+	if mode == 'advanced':
+		pass
+	
+	#GET FOODS possible without dying
+	possibleFoods = []
+	for food in data['food']:
+		#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		##REWORK DISTANCE CALCULATION! (maybe?)
+		dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))  #snake not defined?
+		skip = False
+		#avoid snakes closer to the food
+		for snake in data['snakes']:
 			if snake['id'] != snakeid and manDist(tuple(snake['coords'][0]), tuple(food)) <= dist:
 				skip = True
 				break
-        if not skip:
-            possibleFoods.append(tuple(food))
-			    
+		if not skip:
+			possibleFoods.append(tuple(food))
+				
 	#Go to closest food
-    closestFoodDist = 0
-    closestFood = None
-    for food in possibleFoods:
-        d = manDist(tuple(ourSnake['coords'][0]), food)
-        if d < closestFoodDist or closestFood == None:
-            closestFood = food
-            closestFoodDist = d
-    idle = False
-    
-    if closestFood != None:
-        path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
-        if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood): #not position better? whaaa
-            move = directions[path.direction()]
-            print move
-        else:
-            idle = True
-    else:
-        idle = True
+	closestFoodDist = 0
+	closestFood = None
+	for food in possibleFoods:
+		d = manDist(tuple(ourSnake['coords'][0]), food)
+		if d < closestFoodDist or closestFood == None:
+			closestFood = food
+			closestFoodDist = d
+	idle = False
+	
+	if closestFood != None:
+		path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
+		if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood): #not position better? whaaa
+			move = directions[path.direction()]
+			print move
+		else:
+			idle = True
+	else:
+		idle = True
 		
 	# IDLE ACTIONS
 	simpleMovements = False
@@ -326,12 +326,12 @@ def move():
 		ind = 0
 		# get random possible locations and paths
 		#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # CHANGE TO LOOK AT ALL LOCATIONS?!
+		# CHANGE TO LOOK AT ALL LOCATIONS?!
 		while not path and ind < idlePathSamples:
 			goal = grid.random()
 			tmpPath = aStar(grid, tuple(ourSnake['coords'][0]), goal)
 			if tmpPath != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
-                path = tmpPath
+            path = tmpPath
             ind += 1
         if path:
 			move = directions[path.direction()]
@@ -356,81 +356,81 @@ def move():
 			tmpPath = aStar(bGrid, tuple(ourSnake['coords'][0]), goal)
 			if tmpPath != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
 				path = tmpPath
-            ind += 1
+			ind += 1
 		if path:
 			move = directions[path.direction()]
 			print("Simple:" + move)
 
-    print move
+	print move
 	#------DIRECTION CHECK ***FAILSAFE***
-    if not move:
-        move = 'west'
-    
-    curdir = None
-    for direction in directions:
-        if move == directions[direction]:
-            curdir = direction
-            break
+	if not move:
+		move = 'west'
 	
-    #curpos = tuple(ourSnake['coords'][0])
-    a = ourSnake['coords']
-    b = a[0]
-    c = tuple(b)
-    d = c[0]
-    e = c[1]
-    one = d + curdir[0]
-    two = e + curdir[1]
-    
-    transpos = (one, two)
-    # transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
+	curdir = None
+	for direction in directions:
+		if move == directions[direction]:
+			curdir = direction
+			break
+	
+	#curpos = tuple(ourSnake['coords'][0])
+	a = ourSnake['coords']
+	b = a[0]
+	c = tuple(b)
+	d = c[0]
+	e = c[1]
+	one = d + curdir[0]
+	two = e + curdir[1]
+	
+	transpos = (one, two)
+	# transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
 	
 	#not sure
-    if not grid.contains(transpos) or grid.obstructed(transpos):
-        cGrid = Grid(len(data['board'][0]), len(data['board']))
-        for snake in data['snakes']:		
-            for coord in snake['coords']:			
-                cGrid.obstruct(tuple(coord))
-            bbb = snake['coords'][-1]
-            cGrid.cells[bbb[0]][bbb[1]] = 0
+	if not grid.contains(transpos) or grid.obstructed(transpos):
+		cGrid = Grid(len(data['board'][0]), len(data['board']))
+		for snake in data['snakes']:		
+			for coord in snake['coords']:			
+				cGrid.obstruct(tuple(coord))
+			bbb = snake['coords'][-1]
+			cGrid.cells[bbb[0]][bbb[1]] = 0
 			
-        for direction in directions:
-            if direction == curdir:
-                continue
-            newpos = (curpos[0] + direction[0], curpos[1] + direction[1])
+		for direction in directions:
+			if direction == curdir:
+				continue
+			newpos = (curpos[0] + direction[0], curpos[1] + direction[1])
 	
-            if cGrid.contains(newpos) and not cGrid.obstructed(newpos):
-                move = directions[direction]
-                break
+			if cGrid.contains(newpos) and not cGrid.obstructed(newpos):
+				move = directions[direction]
+				break
 
-    # TODO: Do things with data: (BELOW)
-    # {
-    #     "game": "hairy-cheese",
-    #     "mode": "advanced",
-    #     "turn": 0,
-    #     "height": 20,
-    #     "width": 30,
-    #     "snakes": [
-    #         <Snake Object>, <Snake Object>, ...
-    #     ],
-    #     "food": [],
-    #     "walls": [],  // Advanced Only
-    #     "gold": []    // Advanced Only
-    # }
-    
+	# TODO: Do things with data: (BELOW)
+	# {
+	#     "game": "hairy-cheese",
+	#     "mode": "advanced",
+	#     "turn": 0,
+	#     "height": 20,
+	#     "width": 30,
+	#     "snakes": [
+	#         <Snake Object>, <Snake Object>, ...
+	#     ],
+	#     "food": [],
+	#     "walls": [],  // Advanced Only
+	#     "gold": []    // Advanced Only
+	# }
+	
 
-    return {
-        'move': move,
-        'taunt': tList[random.randint(0,lenTList)]
-    }
+	return {
+		'move': move,
+		'taunt': tList[random.randint(0,lenTList)]
+	}
 
 #===== ENDGAME ===================================
 @bottle.post('/end')
 def end():
-    data = bottle.request.json
-    # Do nothing, end of game! RIP
-    return {}
+	data = bottle.request.json
+	# Do nothing, end of game! RIP
+	return {}
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
 if __name__ == '__main__':
-    bottle.run(application, host=os.getenv('IP', '0.0.0.0'), port=os.getenv('PORT', '8080'))
+	bottle.run(application, host=os.getenv('IP', '0.0.0.0'), port=os.getenv('PORT', '8080'))
