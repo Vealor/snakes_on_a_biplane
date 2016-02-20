@@ -366,10 +366,13 @@ def move():
         if move == directions[direction]:
             curdir = direction
             break
-			
+	
     curpos = tuple(ourSnake['coords'][0])
+    one = curpos[0] + curdir[0]
+    two = curpos[1] + curdir[1]
     
-    transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
+    transpos = (one, two)
+    # transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
 	
 	#not sure
     if not grid.contains(transpos) or grid.obstructed(transpos):
