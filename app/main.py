@@ -296,8 +296,8 @@ def move():
 			if snake['id'] != snakeid and manDist(tuple(snake['coords'][0]), tuple(food)) <= dist:
 				skip = True
 				break
-		if not skip:
-		    possibleFoods.append(tuple(food))
+        if not skip:
+            possibleFoods.append(tuple(food))
 			    
 	#Go to closest food
     closestFoodDist = 0
