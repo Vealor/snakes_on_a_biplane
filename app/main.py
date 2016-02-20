@@ -304,6 +304,7 @@ def move():
     coincheck = False
     #GET COIN possible without dying
     if mode == 'advanced':
+        print "CHECKING FOR COINS"
         possibleCoins = []
         for coin in data['gold']:
             #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -341,6 +342,7 @@ def move():
     #============= FOODS ==============
     #GET FOODS possible without dying
     if not coincheck:
+        print "CHEKCING FOR FOOD"
         possibleFoods = []
         for food in data['food']:
             #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -378,6 +380,7 @@ def move():
     # IDLE ACTIONS
     simpleMovements = False
     if idle:
+        print "IDLING"
         path = False
         ind = 0
         # get random possible locations and paths
@@ -395,9 +398,9 @@ def move():
         else:
             simpleMovements = True
     
-    ## NOT SURE
-    # Uses A*
+    ## base case
     if simpleMovements:
+        print "SIMPLE MOVEMENTS"
         bGrid = Grid(data['width'], data['height'])
         for snake in data['snakes']:								
             for coord in snake['coords']:							
@@ -415,12 +418,13 @@ def move():
             ind += 1
         if path:
             move = directions[path.direction()]
-            print("Simple:" + move)
+            print("Simple>> " + move)
 
-    print "FINAL>> "+ move
+    
     #------DIRECTION CHECK ***FAILSAFE***
     if not move:
         move = 'west'
+    print "FINAL>> " + move
     
     curdir = None
     for direction in directions:
