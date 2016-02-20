@@ -289,15 +289,15 @@ def move():
     for food in data['food']:
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         ##REWORK DISTANCE CALCULATION! (maybe?)
-        dist = manDist(tuple(snake['coords'][0]), tuple(food))
+        dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))  #snake not defined?
         skip = False
         #avoid snakes closer to the food
         for snake in data['snakes']:
 			if snake['id'] != snakeid and manDist(tuple(snake['coords'][0]), tuple(food)) <= dist:
 				skip = True
 				break
-			if not skip:
-			    possibleFoods.append(tuple(food))
+		if not skip:
+		    possibleFoods.append(tuple(food))
 			    
 	#Go to closest food
     closestFoodDist = 0
