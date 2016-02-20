@@ -41,8 +41,8 @@ directions = {
     (0, -1): 'north',
     (0, 1): 'south'
 }
-trapSamples = 20
-idlePathSamples = 20
+trapSamples = 100
+idlePathSamples = 100
 
 ################################################################################
 # Classes                                                                      #
