@@ -405,7 +405,7 @@ def move():
     
 
     return {
-        'move': 'north',
+        'move': move,
         'taunt': tList[random.randint(0,lenTList)]
     }
 
