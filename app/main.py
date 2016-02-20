@@ -10,21 +10,25 @@ import copy
 # Taunts                                                                       #
 ################################################################################
 
-tList = ['Feel the power of the mongoose!',
-         'I like to move it move it!',
-         'Listen to my mix tape!',
-         'You wanna go bruh? Wanna go? HUH?',
-         'Staying alive! Staying alive!',
-         'Pretty good eh?',
-         'Do you fear death?',
-         'Let of some ssssssteam...',
-         'PURGEEEEEEEE',
-         'Come on, kill meeee!',
-         'You require more Vespene Gas!',
-         'You require more pylons!',
-         'Require more overlords!!!',
-         'Fear the power of the force...',
-         'My goose is bigger than yours!']
+# tList = ['Feel the power of the mongoose!',
+#          'I like to move it move it!',
+#          'Listen to my mix tape!',
+#          'You wanna go bruh? Wanna go? HUH?',
+#          'Staying alive! Staying alive!',
+#          'Pretty good eh?',
+#          'Do you fear death?',
+#          'Let of some ssssssteam...',
+#          'PURGEEEEEEEE',
+#          'Come on, kill meeee!',
+#          'You require more Vespene Gas!',
+#          'You require more pylons!',
+#          'Require more overlords!!!',
+#          'Fear the power of the force...',
+#          'My goose is bigger than yours!']
+
+tList = ['Get out of here ',
+        'Im coming to get you ',]
+
 lenTList = len(tList)-1
 
 ################################################################################
@@ -267,6 +271,15 @@ def move():
     #ESTABLISH OUTER GRID
     grid = Grid(data['width'], data['height'])
     
+    mindist = data['width']*data['height']
+    closestsnake = None
+    for snake in data['snakes']:
+        if snake != ourSnake:
+            dist = manDist(tuple(snake['coords'][0]), tuple(ourSnake['coords'][0]))
+            if dist < mindist:
+                mindist = dist
+                closestsnake = snake
+    
     #Get info on other snakes
     for snake in data['snakes']:
         #obstruct all snakes
@@ -282,42 +295,85 @@ def move():
     
     #ADVANCED: AVOID WALLS
     if mode == 'advanced':
-        pass
+        for wall in data['walls']:
+            grid.obstruct(tuple(wall))
+        
     
+    
+    #============= COINS ==============
+    coincheck = False
+    #GET COIN possible without dying
+    if mode == 'advanced':
+        possibleCoins = []
+        for coin in data['gold']:
+            #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            ##REWORK DISTANCE CALCULATION! (maybe?)
+            dist = manDist(tuple(ourSnake['coords'][0]), tuple(coin))  #snake not defined?
+            skip = False
+            #avoid snakes closer to the coin!
+            for snake in data['snakes']:
+                if snake['id'] != snakeid and manDist(tuple(snake['coords'][0]), tuple(coin)) <= dist:
+                    skip = True
+                    break
+            if not skip:
+                possibleCoins.append(tuple(coin))
+                    
+        #Go to closest COIN
+        closestCoinDist = 0
+        closestCoin = None
+        for coin in possibleCoins:
+            d = manDist(tuple(ourSnake['coords'][0]), coin)
+            if d < closestCoinDist or closestCoin == None:
+                closestCoin = coin
+                closestCoinDist = d
+        coincheck = False
+        
+        if closestCoin != None:
+            path = aStar(grid, tuple(ourSnake['coords'][0]), closestCoin)
+            if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestCoin): #not position better? whaaa
+                move = directions[path.direction()]
+                print "Coin>> " + move
+            else:
+                coincheck = True
+        else:
+            coincheck = True
+        
+    #============= FOODS ==============
     #GET FOODS possible without dying
-    possibleFoods = []
-    for food in data['food']:
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        ##REWORK DISTANCE CALCULATION! (maybe?)
-        dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))  #snake not defined?
-        skip = False
-        #avoid snakes closer to the food
-        for snake in data['snakes']:
-            if snake['id'] != snakeid and manDist(tuple(snake['coords'][0]), tuple(food)) <= dist:
-                skip = True
-                break
-        if not skip:
-            possibleFoods.append(tuple(food))
-                
-    #Go to closest food
-    closestFoodDist = 0
-    closestFood = None
-    for food in possibleFoods:
-        d = manDist(tuple(ourSnake['coords'][0]), food)
-        if d < closestFoodDist or closestFood == None:
-            closestFood = food
-            closestFoodDist = d
-    idle = False
-    
-    if closestFood != None:
-        path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
-        if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood): #not position better? whaaa
-            move = directions[path.direction()]
-            print "Food>> " + move
+    if not coincheck:
+        possibleFoods = []
+        for food in data['food']:
+            #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            ##REWORK DISTANCE CALCULATION! (maybe?)
+            dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))  #snake not defined?
+            skip = False
+            #avoid snakes closer to the food
+            for snake in data['snakes']:
+                if snake['id'] != snakeid and manDist(tuple(snake['coords'][0]), tuple(food)) <= dist:
+                    skip = True
+                    break
+            if not skip:
+                possibleFoods.append(tuple(food))
+                    
+        #Go to closest food
+        closestFoodDist = 0
+        closestFood = None
+        for food in possibleFoods:
+            d = manDist(tuple(ourSnake['coords'][0]), food)
+            if d < closestFoodDist or closestFood == None:
+                closestFood = food
+                closestFoodDist = d
+        idle = False
+        
+        if closestFood != None:
+            path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
+            if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood): #not position better? whaaa
+                move = directions[path.direction()]
+                print "Food>> " + move
+            else:
+                idle = True
         else:
             idle = True
-    else:
-        idle = True
         
     # IDLE ACTIONS
     simpleMovements = False
@@ -417,10 +473,11 @@ def move():
     #     "gold": []    // Advanced Only
     # }
     
+    newtaunt = tList[random.randint(0,lenTList)] + closestsnake['name']
 
     return {
         'move': move,
-        'taunt': tList[random.randint(0,lenTList)]
+        'taunt': newtaunt
     }
 
 #===== ENDGAME ===================================
