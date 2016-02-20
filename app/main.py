@@ -381,11 +381,11 @@ def move():
         for direction in directions:
             if direction == curdir:
                 continue
-			newpos = (curpos[0] + direction[0], curpos[1] + direction[1])
+            newpos = (curpos[0] + direction[0], curpos[1] + direction[1])
 	
-			if cGrid.contains(newpos) and not cGrid.obstructed(newpos):
-				move = directions[direction]
-				break
+            if cGrid.contains(newpos) and not cGrid.obstructed(newpos):
+                move = directions[direction]
+                break
 
     # TODO: Do things with data: (BELOW)
     # {
