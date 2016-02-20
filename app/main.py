@@ -327,10 +327,10 @@ def move():
 		# get random possible locations and paths
 		#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		# CHANGE TO LOOK AT ALL LOCATIONS?!
-		while not path and ind < idlePathSamples:
-			goal = grid.random()
-			tmpPath = aStar(grid, tuple(ourSnake['coords'][0]), goal)
-			if tmpPath != False:
+        while not path and ind < idlePathSamples:
+            goal = grid.random()
+            tmpPath = aStar(grid, tuple(ourSnake['coords'][0]), goal)
+            if tmpPath != False:
                 path = tmpPath
             ind += 1
         if path:
