@@ -367,9 +367,14 @@ def move():
             curdir = direction
             break
 	
-    curpos = tuple(ourSnake['coords'][0])
-    one = curpos[0] + curdir[0]
-    two = curpos[1] + curdir[1]
+    #curpos = tuple(ourSnake['coords'][0])
+    a = ourSnake['coords']
+    b = a[0]
+    c = tuple(b)
+    d = c[0]
+    e = c[1]
+    one = d + curdir[0]
+    two = e + curdir[1]
     
     transpos = (one, two)
     # transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
