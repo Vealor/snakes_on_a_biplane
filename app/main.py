@@ -301,7 +301,7 @@ def move():
     
     idle = False
     #============= COINS ==============
-    coincheck = False
+    getcoin = False
     #GET COIN possible without dying
     if mode == 'advanced':
         print "CHECKING FOR COINS"
@@ -327,21 +327,18 @@ def move():
             if d < closestCoinDist or closestCoin == None:
                 closestCoin = coin
                 closestCoinDist = d
-        coincheck = False
+        getcoin = False
         
         if closestCoin != None:
             path = aStar(grid, tuple(ourSnake['coords'][0]), closestCoin)
             if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestCoin): #not position better? whaaa
                 move = directions[path.direction()]
                 print "Coin>> " + move
-            else:
-                coincheck = True
-        else:
-            coincheck = True
+                getcoin = True
         
     #============= FOODS ==============
     #GET FOODS possible without dying
-    if not coincheck:
+    if not getcoin:
         print "CHEKCING FOR FOOD"
         possibleFoods = []
         for food in data['food']:
@@ -477,7 +474,7 @@ def move():
     #     "gold": []    // Advanced Only
     # }
     
-    newtaunt = tList[random.randint(0,lenTList)] + closestsnake['name']
+    newtaunt = tList[random.randint(0,len(TList))] + closestsnake['name']
 
     return {
         'move': move,
