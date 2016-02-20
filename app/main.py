@@ -356,15 +356,15 @@ def move():
 			tmpPath = aStar(bGrid, tuple(ourSnake['coords'][0]), goal)
 			if tmpPath != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
 				path = tmpPath
-			ind += 1
+            ind += 1
 		if path:
 			move = directions[path.direction()]
 			print("Simple:" + move)
 
     print move
 	#------DIRECTION CHECK ***FAILSAFE***
-	if not move:
-		move = 'west'
+    if not move:
+        move = 'west'
     
     curdir = None
     for direction in directions:
