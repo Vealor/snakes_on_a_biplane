@@ -13,7 +13,8 @@ import copy
 tList = ["Get out of here ",
         "I'm coming to get you ",
         "You're going down ",
-        "I'm going to eat you for dinner",]
+        "I'm going to eat you for dinner ",
+        "You're fired ",]
 
 lenTList = len(tList)-1
 
@@ -463,7 +464,7 @@ def move():
     #     "gold": []    // Advanced Only
     # }
     
-    newtaunt = tList[random.randint(0,(len(tList)-1))] + closestsnake['name']
+    newtaunt = tList[random.randint(0,(len(tList)-1))] + closestsnake['name'] + "!"
 
     return {
         'move': move,
