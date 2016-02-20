@@ -299,7 +299,7 @@ def move():
             grid.obstruct(tuple(wall))
         
     
-    
+    idle = False
     #============= COINS ==============
     coincheck = False
     #GET COIN possible without dying
