@@ -474,7 +474,7 @@ def move():
     #     "gold": []    // Advanced Only
     # }
     
-    newtaunt = tList[random.randint(0,len(tList))] + closestsnake['name']
+    newtaunt = tList[random.randint(0,(len(tList)-1))] + closestsnake['name']
 
     return {
         'move': move,
