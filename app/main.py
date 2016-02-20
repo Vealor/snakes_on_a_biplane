@@ -311,7 +311,7 @@ def move():
     
     if closestFood != None:
         path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
-        if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood):
+        if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood): #not position better? whaaa
             move = directions[path.direction()]
         else:
             idle = True
@@ -368,7 +368,8 @@ def move():
             break
 			
     curpos = tuple(ourSnake['coords'][0])
-    transpos=  (curpos[0] + curdir[0], curpos[1] + curdir[1])
+    
+    transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
 	
 	#not sure
     if not grid.contains(transpos) or grid.obstructed(transpos):
