@@ -361,6 +361,7 @@ def move():
 	if move == None:
 		move = 'west'
     
+    print move
     curdir = None
     for direction in directions:
         if move == directions[direction]:
