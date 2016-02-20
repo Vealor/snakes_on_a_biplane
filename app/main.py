@@ -301,6 +301,7 @@ def move():
 			    
 	#Go to closest food
 	closestFoodDist = 0
+	closestFood = None
 	for food in possibleFoods:
 		d = manDist(tuple(ourSnake['coords'][0]), food)
 		if d < closestFoodDist or closestFood == None:
