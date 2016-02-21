@@ -289,7 +289,7 @@ def move():
     getcoin = False
     #GET COIN possible without dying
     if mode == 'advanced':
-        print "CHECKING FOR COINS"
+        # print "CHECKING FOR COINS"
         possibleCoins = []
         for coin in data['gold']:
             dist = manDist(tuple(ourSnake['coords'][0]), tuple(coin))  #snake not defined?
@@ -316,14 +316,14 @@ def move():
             path = aStar(grid, tuple(ourSnake['coords'][0]), closestCoin)
             if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestCoin): #not position better? whaaa
                 move = directions[path.direction()]
-                print "Coin>> " + move
+                # print "Coin>> " + move
                 getcoin = True
         
     #============= FOODS ==============
     #GET FOODS possible without dying
     if not getcoin:
-        print "CHEKCING FOR FOOD"
-        print data['food']
+        # print "CHEKCING FOR FOOD"
+        # print data['food']
         possibleFoods = []
         for food in data['food']:
             dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))  #snake not defined?
@@ -350,7 +350,7 @@ def move():
             path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
             if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood): #not position better? whaaa
                 move = directions[path.direction()]
-                print "Food>> " + move
+                # print "Food>> " + move
             else:
                 idle = True
         else:
@@ -359,7 +359,7 @@ def move():
     # IDLE ACTIONS
     simpleMovements = False
     if idle:
-        print "IDLING"
+        # print "IDLING"
         path = False
         ind = 0
         # get random possible locations and paths
@@ -373,13 +373,13 @@ def move():
             ind += 1
         if path:
             move = directions[path.direction()]
-            print "Idle>> " + move
+            # print "Idle>> " + move
         else:
             simpleMovements = True
     
     ## base case
     if simpleMovements:
-        print "SIMPLE MOVEMENTS"
+        # print "SIMPLE MOVEMENTS"
         bGrid = Grid(data['width'], data['height'])
         for snake in data['snakes']:								
             for coord in snake['coords']:							
@@ -401,14 +401,14 @@ def move():
             ind += 1
         if path:
             move = directions[path.direction()]
-            print("Simple>> " + move)
+            # print("Simple>> " + move)
 
     
     #------DIRECTION CHECK ***FAILSAFE***
     if not move:
         move = 'west'
-        print "failsafe... rip"
-    print "FINAL>> " + move
+        # print "failsafe... rip"
+    # print "FINAL>> " + move
     
     curdir = None
     for direction in directions:
