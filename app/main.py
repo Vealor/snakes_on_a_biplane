@@ -6,6 +6,12 @@ import heapq
 import random
 import copy
 
+
+# we lost because there was a wall between the outer edge and a snake smaller
+# than us managed to block us in.  This was possible because we didn't obstruct
+# the heads of snakes smaller than us.  This allows us to eat smaller snakes, 
+# but we got trapped in a corner without realizing what could happen
+
 ################################################################################
 # Taunts                                                                       #
 ################################################################################
