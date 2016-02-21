@@ -10,11 +10,18 @@ import copy
 # Taunts                                                                       #
 ################################################################################
 
-tList = ["Get out of here ",
-        "I'm coming to get you ",
-        "You're going down ",
-        "I'm going to eat you for dinner ",
-        "You're fired ",]
+tList = ['Feel the power of the mongoose!',
+		 'Look at my BICEPS!!',
+		 'my E-peen is growing',
+		 'You wanna go bruh? Wanna go? HUH?',
+		 'Staying alive! Staying alive!',
+		 'Pretty good eh?',
+		 'Do you fear death?',
+		 'Let of some ssssssteam...',
+		 'PURGEEEEEEEE',
+		 'Come on, kill meeee!',
+		 'You require more pylons!',
+		 'Fear the power of the force...']
 
 lenTList = len(tList)-1
 
@@ -258,15 +265,6 @@ def move():
     #ESTABLISH OUTER GRID
     grid = Grid(data['width'], data['height'])
     
-    mindist = data['width']*data['height']
-    closestsnake = None
-    for snake in data['snakes']:
-        if snake != ourSnake:
-            dist = manDist(tuple(snake['coords'][0]), tuple(ourSnake['coords'][0]))
-            if dist < mindist:
-                mindist = dist
-                closestsnake = snake
-    
     #Get info on other snakes
     for snake in data['snakes']:
         #obstruct all snakes
@@ -394,6 +392,10 @@ def move():
                 bGrid.obstruct(tuple(coord))
             bbb = snake['coords'][-1]
             bGrid.cells[bbb[0]][bbb[1]] = 0
+        #ADVANCED: AVOID WALLS
+        if mode == 'advanced':
+            for wall in data['walls']:
+                grid.obstruct(tuple(wall))
         
         path = False
         ind = 0
@@ -421,15 +423,6 @@ def move():
             break
     
     curpos = tuple(ourSnake['coords'][0])
-    # a = ourSnake['coords']
-    # b = a[0]
-    # c = tuple(b)
-    # d = c[0]
-    # e = c[1]
-    # one = d + curdir[0]
-    # two = e + curdir[1]
-    
-    # transpos = (one, two)
     transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
     
     #not sure
@@ -441,6 +434,11 @@ def move():
             bbb = snake['coords'][-1]
             cGrid.cells[bbb[0]][bbb[1]] = 0
             
+        #ADVANCED: AVOID WALLS
+        if mode == 'advanced':
+            for wall in data['walls']:
+                grid.obstruct(tuple(wall))
+            
         for direction in directions:
             if direction == curdir:
                 continue
@@ -450,26 +448,9 @@ def move():
                 move = directions[direction]
                 break
 
-    # TODO: Do things with data: (BELOW)
-    # {
-    #     "game": "hairy-cheese",
-    #     "mode": "advanced",
-    #     "turn": 0,
-    #     "height": 20,
-    #     "width": 30,
-    #     "snakes": [
-    #         <Snake Object>, <Snake Object>, ...
-    #     ],
-    #     "food": [],
-    #     "walls": [],  // Advanced Only
-    #     "gold": []    // Advanced Only
-    # }
-    
-    newtaunt = tList[random.randint(0,(len(tList)-1))] + closestsnake['name'] + "!"
-
     return {
         'move': move,
-        'taunt': newtaunt
+        'taunt': tList[random.randint(0,lenTList)]
     }
 
 #===== ENDGAME ===================================
