@@ -414,36 +414,36 @@ def move():
 
     # print "FINAL>> " + move
     
-    curdir = None
-    for direction in directions:
-        if move == directions[direction]:
-            curdir = direction
-            break
+    # curdir = None
+    # for direction in directions:
+    #     if move == directions[direction]:
+    #         curdir = direction
+    #         break
     
-    curpos = tuple(ourSnake['coords'][0])
-    transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
+    # curpos = tuple(ourSnake['coords'][0])
+    # transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
     
-    #not sure
-    if not grid.contains(transpos) or grid.obstructed(transpos):
-        cGrid = Grid(data['width'], data['height'])
-        for snake in data['snakes']:		
-            for coord in snake['coords']:			
-                cGrid.obstruct(tuple(coord))
-            bbb = snake['coords'][-1]
-            cGrid.cells[bbb[0]][bbb[1]] = 0
+    # #not sure
+    # if not grid.contains(transpos) or grid.obstructed(transpos):
+    #     cGrid = Grid(data['width'], data['height'])
+    #     for snake in data['snakes']:		
+    #         for coord in snake['coords']:			
+    #             cGrid.obstruct(tuple(coord))
+    #         bbb = snake['coords'][-1]
+    #         cGrid.cells[bbb[0]][bbb[1]] = 0
             
-        if mode == 'advanced':
-            for wall in data['walls']:
-                cGrid.obstruct(tuple(wall))
+    #     if mode == 'advanced':
+    #         for wall in data['walls']:
+    #             cGrid.obstruct(tuple(wall))
             
-        for direction in directions:
-            if direction == curdir:
-                continue
-            newpos = (curpos[0] + direction[0], curpos[1] + direction[1])
+    #     for direction in directions:
+    #         if direction == curdir:
+    #             continue
+    #         newpos = (curpos[0] + direction[0], curpos[1] + direction[1])
     
-            if cGrid.contains(newpos) and not cGrid.obstructed(newpos):
-                move = directions[direction]
-                break
+    #         if cGrid.contains(newpos) and not cGrid.obstructed(newpos):
+    #             move = directions[direction]
+    #             break
     
     
     # FAILSAFE
