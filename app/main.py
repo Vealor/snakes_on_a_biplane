@@ -412,7 +412,7 @@ def move():
             print("Simple>> " + move)
 
 
-    # print "FINAL>> " + move
+    print "FINAL>> " + move
     
     # FAILSAFE
     if not move:
@@ -437,7 +437,7 @@ def move():
     #not sure
     if not grid.contains(transpos) or grid.obstructed(transpos):
         cGrid = Grid(data['width'], data['height'])
-        for snake in data['snakes']:		
+        for snake in data['snakes']:
             for coord in snake['coords']:			
                 cGrid.obstruct(tuple(coord))
             bbb = snake['coords'][-1]
@@ -455,6 +455,8 @@ def move():
             if cGrid.contains(newpos) and not cGrid.obstructed(newpos):
                 move = directions[direction]
                 break
+    
+    print "after fail>> " + move
     
     
     
