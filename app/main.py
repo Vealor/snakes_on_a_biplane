@@ -389,7 +389,7 @@ def move():
         #ADVANCED: AVOID WALLS
         if mode == 'advanced':
             for wall in data['walls']:
-                grid.obstruct(tuple(wall))
+                bGrid.obstruct(tuple(wall))
         
         path = False
         ind = 0
@@ -431,7 +431,7 @@ def move():
         #ADVANCED: AVOID WALLS
         if mode == 'advanced':
             for wall in data['walls']:
-                grid.obstruct(tuple(wall))
+                cGrid.obstruct(tuple(wall))
             
         for direction in directions:
             if direction == curdir:
