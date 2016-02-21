@@ -419,14 +419,14 @@ def move():
     #     move = 'west'
     #     print "failsafe... rip"
         
-    if not move:
-        head = ourSnake['coords'][0]
-        move = 'west'
-        for direction in directions:
-            movement = (head[0] + direction[0], head[1] + direction[1])
-            if not grid.obstructed(movement):
-                move = direction
-                break
+    # if not move:
+    #     head = ourSnake['coords'][0]
+    #     move = 'west'
+    #     for direction in directions:
+    #         movement = (head[0] + direction[0], head[1] + direction[1])
+    #         if not grid.obstructed(movement):
+    #             move = direction
+    #             break
         
             
     
@@ -477,6 +477,17 @@ def move():
     #     "walls": [],  // Advanced Only
     #     "gold": []    // Advanced Only
     # }
+    
+    
+    if not move:
+        head = ourSnake['coords'][0]
+        move = 'west'
+        for direction in directions:
+            movement = (head[0] + direction[0], head[1] + direction[1])
+            if not grid.obstructed(movement):
+                move = direction
+                break
+        
     
     return {
         'move': move,
