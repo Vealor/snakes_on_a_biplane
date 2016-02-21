@@ -417,13 +417,13 @@ def move():
     # FAILSAFE
     if not move:
         print "in failsafe"
-        head = ourSnake['coords'][0]
+        # head = ourSnake['coords'][0]
         move = 'west'
-        for direction in directions:
-            movement = (head[0] + direction[0], head[1] + direction[1])
-            if not grid.obstructed(movement):
-                move = direction
-                break
+        # for direction in directions:
+        #     movement = (head[0] + direction[0], head[1] + direction[1])
+        #     if not grid.obstructed(movement):
+        #         move = direction
+        #         break
     
     curdir = None
     for direction in directions:
