@@ -10,11 +10,18 @@ import copy
 # Taunts                                                                       #
 ################################################################################
 
-tList = ["Get out of here ",
-        "I'm coming to get you ",
-        "You're going down ",
-        "I'm going to eat you for dinner ",
-        "You're fired ",]
+tList = ['Feel the power of the mongoose!',
+		 'Look at my BICEPS!!',
+		 'my E-peen is growing',
+		 'You wanna go bruh? Wanna go? HUH?',
+		 'Staying alive! Staying alive!',
+		 'Pretty good eh?',
+		 'Do you fear death?',
+		 'Let of some ssssssteam...',
+		 'PURGEEEEEEEE',
+		 'Come on, kill meeee!',
+		 'You require more pylons!',
+		 'Fear the power of the force...']
 
 lenTList = len(tList)-1
 
@@ -471,12 +478,9 @@ def move():
     #     "gold": []    // Advanced Only
     # }
     
-    # newtaunt = tList[random.randint(0,(len(tList)-1))] + closestsnake['name'] + "!"
-    newtaunt = "WOW"
-
     return {
         'move': move,
-        'taunt': newtaunt
+        'taunt': tList[random.randint(0,lenTList)]
     }
 #===== ENDGAME ===================================
 @bottle.post('/end')
