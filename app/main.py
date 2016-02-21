@@ -259,14 +259,14 @@ def move():
     grid = Grid(data['width'], data['height'])
     
     #FIND THE CLOSEST SNAKE TO TAUNT
-    mindist = data['width']*data['height']
-    closestsnake = None
-    for snake in data['snakes']:
-        if snake != ourSnake:
-            dist = manDist(tuple(snake['coords'][0]), tuple(ourSnake['coords'][0]))
-            if dist < mindist:
-                mindist = dist
-                closestsnake = snake
+    # mindist = data['width']*data['height']
+    # closestsnake = None
+    # for snake in data['snakes']:
+    #     if snake != ourSnake:
+    #         dist = manDist(tuple(snake['coords'][0]), tuple(ourSnake['coords'][0]))
+    #         if dist < mindist:
+    #             mindist = dist
+    #             closestsnake = snake
     
     #Get info on other snakes
     for snake in data['snakes']:
@@ -432,15 +432,6 @@ def move():
             break
     
     curpos = tuple(ourSnake['coords'][0])
-    # a = ourSnake['coords']
-    # b = a[0]
-    # c = tuple(b)
-    # d = c[0]
-    # e = c[1]
-    # one = d + curdir[0]
-    # two = e + curdir[1]
-    
-    # transpos = (one, two)
     transpos = (curpos[0] + curdir[0], curpos[1] + curdir[1])
     
     #not sure
@@ -480,20 +471,19 @@ def move():
     #     "gold": []    // Advanced Only
     # }
     
-    newtaunt = tList[random.randint(0,(len(tList)-1))] + closestsnake['name'] + "!"
+    # newtaunt = tList[random.randint(0,(len(tList)-1))] + closestsnake['name'] + "!"
+    newtaunt = "WOW"
 
     return {
         'move': move,
         'taunt': newtaunt
     }
-
 #===== ENDGAME ===================================
 @bottle.post('/end')
 def end():
     data = bottle.request.json
     # Do nothing, end of game! RIP
     return {}
-
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
 if __name__ == '__main__':
