@@ -337,31 +337,25 @@ def move():
                 possibleFoods.append(tuple(food))
                     
         #Go to closest food
-        havedest = False
-        while not havedest:
-            closestFoodDist = 0
-            closestFood = None
-            for food in possibleFoods:
-                d = manDist(tuple(ourSnake['coords'][0]), food)
-                if d < closestFoodDist or closestFood == None:
-                    closestFood = food
-                    closestFoodDist = d
-                    
-            idle = False
-            
-            if closestFood != None:
-                path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
-                if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood): #not position better? whaaa
-                    move = directions[path.direction()]
-                    print "Food>> " + move
-                    havedest = True
-                else:
-                    possibleFoods.remove(tuple(closestFood))
-                    idle = True
-            else:
-                havedest = True
-                idle = True
+        closestFoodDist = 0
+        closestFood = None
+        for food in possibleFoods:
+            d = manDist(tuple(ourSnake['coords'][0]), food)
+            if d < closestFoodDist or closestFood == None:
+                closestFood = food
+                closestFoodDist = d
+        idle = False
         
+        if closestFood != None:
+            path = aStar(grid, tuple(ourSnake['coords'][0]), closestFood)
+            if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestFood): #not position better? whaaa
+                move = directions[path.direction()]
+                print "Food>> " + move
+            else:
+                idle = True
+        else:
+            idle = True
+    
     # IDLE ACTIONS
     simpleMovements = False
     if idle:
@@ -402,7 +396,7 @@ def move():
         while not path and ind < idlePathSamples:
             goal = bGrid.random()
             tmpPath = aStar(bGrid, tuple(ourSnake['coords'][0]), goal)
-            if tmpPath != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
+            if tmpPath != False and not isPositionBetter(bGrid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
                 path = tmpPath
             ind += 1
         if path:
