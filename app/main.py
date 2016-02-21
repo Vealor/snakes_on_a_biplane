@@ -373,8 +373,6 @@ def move():
         path = False
         ind = 0
         # get random possible locations and paths
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # CHANGE TO LOOK AT ALL LOCATIONS?!
         while not path and ind < idlePathSamples:
             goal = grid.random()
             tmpPath = aStar(grid, tuple(ourSnake['coords'][0]), goal)
@@ -389,7 +387,7 @@ def move():
     
     ## base case
     if simpleMovements:
-        # print "SIMPLE MOVEMENTS"
+        print "SIMPLE MOVEMENTS"
         bGrid = Grid(data['width'], data['height'])
         for snake in data['snakes']:								
             for coord in snake['coords']:							
@@ -413,23 +411,7 @@ def move():
             move = directions[path.direction()]
             print("Simple>> " + move)
 
-    
-    #------DIRECTION CHECK ***FAILSAFE***
-    # if not move:
-    #     move = 'west'
-    #     print "failsafe... rip"
-        
-    # if not move:
-    #     head = ourSnake['coords'][0]
-    #     move = 'west'
-    #     for direction in directions:
-    #         movement = (head[0] + direction[0], head[1] + direction[1])
-    #         if not grid.obstructed(movement):
-    #             move = direction
-    #             break
-        
-            
-    
+
     # print "FINAL>> " + move
     
     curdir = None
@@ -462,24 +444,11 @@ def move():
             if cGrid.contains(newpos) and not cGrid.obstructed(newpos):
                 move = directions[direction]
                 break
-
-    # TODO: Do things with data: (BELOW)
-    # {
-    #     "game": "hairy-cheese",
-    #     "mode": "advanced",
-    #     "turn": 0,
-    #     "height": 20,
-    #     "width": 30,
-    #     "snakes": [
-    #         <Snake Object>, <Snake Object>, ...
-    #     ],
-    #     "food": [],
-    #     "walls": [],  // Advanced Only
-    #     "gold": []    // Advanced Only
-    # }
     
     
+    # FAILSAFE
     if not move:
+        print "in failsafe"
         head = ourSnake['coords'][0]
         move = 'west'
         for direction in directions:
@@ -487,8 +456,7 @@ def move():
             if not grid.obstructed(movement):
                 move = direction
                 break
-        
-    
+            
     return {
         'move': move,
         'taunt': tList[random.randint(0,lenTList)]
