@@ -319,7 +319,7 @@ def move():
             path = aStar(grid, tuple(ourSnake['coords'][0]), closestCoin)
             if path != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), path, closestCoin): #not position better? whaaa
                 move = directions[path.direction()]
-                print "Coin>> " + move
+                # print "Coin>> " + move
                 getcoin = True
         
     #============= FOODS ==============
@@ -376,7 +376,7 @@ def move():
             ind += 1
         if path:
             move = directions[path.direction()]
-            print "Idle>> " + move
+            # print "Idle>> " + move
         else:
             simpleMovements = True
     
