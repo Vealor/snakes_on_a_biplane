@@ -258,6 +258,7 @@ def move():
     #ESTABLISH OUTER GRID
     grid = Grid(data['width'], data['height'])
     
+    #FIND THE CLOSEST SNAKE TO TAUNT
     mindist = data['width']*data['height']
     closestsnake = None
     for snake in data['snakes']:
@@ -328,7 +329,7 @@ def move():
         print data['food']
         possibleFoods = []
         for food in data['food']:
-            dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))  #snake not defined?
+            dist = manDist(tuple(ourSnake['coords'][0]), tuple(food))
             skip = False
             #avoid snakes closer to the food
             for snake in data['snakes']:
@@ -388,13 +389,17 @@ def move():
                 bGrid.obstruct(tuple(coord))
             bbb = snake['coords'][-1]
             bGrid.cells[bbb[0]][bbb[1]] = 0
+            
+        if mode == 'advanced':
+            for wall in data['walls']:
+                bGrid.obstruct(tuple(wall))
         
         path = False
         ind = 0
         while not path and ind < idlePathSamples:
             goal = bGrid.random()
             tmpPath = aStar(bGrid, tuple(ourSnake['coords'][0]), goal)
-            if tmpPath != False and not isPositionBetter(grid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
+            if tmpPath != False and not isPositionBetter(bGrid, ourSnake, tuple(ourSnake['coords'][0]), tmpPath, goal):
                 path = tmpPath
             ind += 1
         if path:
@@ -403,9 +408,21 @@ def move():
 
     
     #------DIRECTION CHECK ***FAILSAFE***
+    # if not move:
+    #     move = 'west'
+    #     print "failsafe... rip"
+        
     if not move:
+        head = ourSnake['coords'][0]
         move = 'west'
-        print "failsafe... rip"
+        for direction in directions:
+            movement = (head[0] + direction[0], head[1] + direction[1])
+            if not grid.obstructed(movement):
+                move = direction
+                break
+        
+            
+    
     print "FINAL>> " + move
     
     curdir = None
@@ -434,6 +451,10 @@ def move():
                 cGrid.obstruct(tuple(coord))
             bbb = snake['coords'][-1]
             cGrid.cells[bbb[0]][bbb[1]] = 0
+            
+        if mode == 'advanced':
+            for wall in data['walls']:
+                cGrid.obstruct(tuple(wall))
             
         for direction in directions:
             if direction == curdir:
